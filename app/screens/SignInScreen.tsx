@@ -4,7 +4,6 @@ import {
   SafeAreaView,
   StyleSheet,
   View,
-  TextInput,
   StatusBar,
   ScrollView,
   TouchableOpacity,
@@ -17,6 +16,7 @@ import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {StackProps} from '../../App';
 import {useDispatch} from 'react-redux';
 import {updateActiveUser, updateToken} from '../stores/slices/user';
+import FormInput from '../../components/FormInput';
 
 const SignInScreen = () => {
   const dispatch = useDispatch();
@@ -24,9 +24,6 @@ const SignInScreen = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [emailInputFocus, setEmailInputFocus] = useState(false);
-  const [passwordInputFocus, setPasswordInputFocus] = useState(false);
-  const [hidePassword, setHidePassword] = useState(true);
 
   const handleSignIn = async () => {
     const token = await signIn(email, password);
@@ -69,77 +66,26 @@ const SignInScreen = () => {
 
       <ScrollView style={styles.form}>
         <View>
-          <Text style={styles.labelText}>Email</Text>
-
-          <View
-            style={{
-              alignItems: 'center',
-              flexDirection: 'row',
-              borderWidth: 1,
-              borderColor: emailInputFocus ? '#0f66ff' : '#e5e7ea',
-              borderRadius: 10,
-              padding: 12,
-              gap: 12,
-              marginTop: 10,
-            }}>
-            <Ionicon name="mail-outline" size={24} color={'#3f4145'} />
-
-            <TextInput
-              style={{
-                fontSize: 16,
-                fontWeight: '400',
-                flex: 1,
-              }}
-              onFocus={() => setEmailInputFocus(true)}
-              onBlur={() => setEmailInputFocus(false)}
-              keyboardType="email-address"
-              placeholder="Enter your email"
-              placeholderTextColor={'#83898f'}
-              value={email}
-              onChangeText={text => setEmail(text)}
-            />
-          </View>
+          <FormInput
+            value={email}
+            setValue={setEmail}
+            labelText="Email"
+            icon={<Ionicon name="mail-outline" size={24} color={'#3f4145'} />}
+            keyboardType="email-address"
+          />
         </View>
 
         <View style={{marginTop: 20}}>
-          <Text style={styles.labelText}>Password</Text>
-
-          <View
-            style={{
-              alignItems: 'center',
-              flexDirection: 'row',
-              borderWidth: 1,
-              borderColor: passwordInputFocus ? '#0f66ff' : '#e5e7ea',
-              borderRadius: 10,
-              padding: 12,
-              gap: 12,
-              marginTop: 10,
-            }}>
-            <Ionicon name="lock-closed-outline" size={24} color={'#3f4145'} />
-
-            <TextInput
-              style={{
-                fontSize: 16,
-                fontWeight: '400',
-                flex: 1,
-              }}
-              onFocus={() => setPasswordInputFocus(true)}
-              onBlur={() => setPasswordInputFocus(false)}
-              keyboardType="visible-password"
-              secureTextEntry={hidePassword}
-              placeholder="Enter your password"
-              placeholderTextColor={'#83898f'}
-              value={password}
-              onChangeText={text => setPassword(text)}
-            />
-
-            <Ionicon
-              onPress={() => setHidePassword(!hidePassword)}
-              name="eye-off-outline"
-              size={24}
-              color={'#3f4145'}
-            />
-          </View>
+          <FormInput
+            value={password}
+            setValue={setPassword}
+            labelText="Password"
+            icon={
+              <Ionicon name="lock-closed-outline" size={24} color={'#3f4145'} />
+            }
+            keyboardType="visible-password"
+            isPassword
+          />
         </View>
 
         <TouchableOpacity onPress={handleSignIn} style={styles.button}>
