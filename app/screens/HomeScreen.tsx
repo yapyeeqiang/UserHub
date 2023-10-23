@@ -12,10 +12,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useCallback, useContext, useEffect, useState} from 'react';
-import axios from 'axios';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {User} from '../types/user';
 import {AuthContext} from '../contexts/AuthContext';
+import {getUsers} from '../api/user';
 
 const HomeScreen = () => {
   const {activeUser, updateToken} = useContext(AuthContext);
@@ -30,11 +30,14 @@ const HomeScreen = () => {
     setLoading(true);
 
     try {
-      const {data} = await axios.get(
-        `https://reqres.in/api/users?page=${currentPage}`,
-      );
-      setTotalPages(data.total_pages);
-      const userData = data.data as User[];
+      const response = await getUsers(currentPage);
+
+      if (!response) {
+        return;
+      }
+
+      setTotalPages(response.totalPages);
+      const userData = response.users as User[];
 
       setUsers(prevUsers => [...prevUsers, ...userData]);
     } catch (error) {
@@ -55,7 +58,9 @@ const HomeScreen = () => {
   const handleLoadMore = () => {
     const nextPage = page + 1;
 
-    if (nextPage > totalPages) return;
+    if (nextPage > totalPages) {
+      return;
+    }
 
     setLoading(true);
     setPage(nextPage);
