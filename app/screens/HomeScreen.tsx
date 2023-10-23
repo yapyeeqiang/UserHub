@@ -11,14 +11,17 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
-import {useCallback, useContext, useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {User} from '../types/user';
-import {AuthContext} from '../contexts/AuthContext';
 import {getUsers} from '../api/user';
+import {useSelector, useDispatch} from 'react-redux';
+import {RootState} from '../stores';
+import {updateToken} from '../stores/slices/user';
 
 const HomeScreen = () => {
-  const {activeUser, updateToken} = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const activeUser = useSelector((state: RootState) => state.user.activeUser);
 
   const [users, setUsers] = useState<User[]>([]);
   const [page, setPage] = useState(1);
@@ -80,7 +83,9 @@ const HomeScreen = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
 
-      <TouchableOpacity onPress={() => updateToken('')} style={styles.profile}>
+      <TouchableOpacity
+        onPress={() => dispatch(updateToken(''))}
+        style={styles.profile}>
         <Ionicon name="log-out-outline" size={28} color={'#ffffff'} />
       </TouchableOpacity>
 

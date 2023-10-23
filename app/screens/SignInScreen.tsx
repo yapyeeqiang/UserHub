@@ -1,4 +1,4 @@
-import {useContext, useState} from 'react';
+import {useState} from 'react';
 import {
   Text,
   SafeAreaView,
@@ -12,14 +12,15 @@ import {
   Alert,
 } from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import {AuthContext} from '../contexts/AuthContext';
 import {signIn} from '../api/auth';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {StackProps} from '../../App';
+import {useDispatch} from 'react-redux';
+import {updateActiveUser, updateToken} from '../stores/slices/user';
 
 const SignInScreen = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation<NavigationProp<StackProps>>();
-  const {updateToken, updateActiveUser} = useContext(AuthContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,15 +39,17 @@ const SignInScreen = () => {
       return;
     }
 
-    updateToken(token);
+    dispatch(updateToken(token));
 
     const [firstName, lastName] = email.split('@')[0].split('.');
 
-    updateActiveUser({
-      email,
-      first_name: firstName[0].toUpperCase() + firstName.slice(1),
-      last_name: lastName,
-    });
+    dispatch(
+      updateActiveUser({
+        email,
+        first_name: firstName[0].toUpperCase() + firstName.slice(1),
+        last_name: lastName,
+      }),
+    );
   };
 
   return (
