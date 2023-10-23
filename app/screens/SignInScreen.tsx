@@ -11,16 +11,14 @@ import {
 } from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {signIn} from '../api/auth';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {StackProps} from '../../App';
 import {useDispatch} from 'react-redux';
 import {updateActiveUser, updateToken} from '../stores/slices/user';
 import FormInput from '../../components/FormInput';
 import Button from '../../components/Button';
+import Link from '../../components/Link';
 
 const SignInScreen = () => {
   const dispatch = useDispatch();
-  const navigation = useNavigation<NavigationProp<StackProps>>();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -101,11 +99,7 @@ const SignInScreen = () => {
             Don't have an account?
           </Text>
 
-          <Text
-            onPress={() => navigation.navigate('SignUp')}
-            style={styles.cta}>
-            Sign up
-          </Text>
+          <Link href="SignUp" text="Sign up" />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -146,10 +140,5 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     marginTop: -15,
-  },
-  cta: {
-    color: '#0f66ff',
-    fontWeight: '600',
-    fontSize: 16,
   },
 });

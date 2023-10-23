@@ -1,4 +1,3 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useState} from 'react';
 import {
   Text,
@@ -11,16 +10,14 @@ import {
   Alert,
 } from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import {StackProps} from '../../App';
 import {signUp} from '../api/auth';
 import {updateActiveUser, updateToken} from '../stores/slices/user';
 import {useDispatch} from 'react-redux';
 import FormInput from '../../components/FormInput';
 import Button from '../../components/Button';
+import Link from '../../components/Link';
 
-type Props = NativeStackScreenProps<StackProps, 'SignUp'>;
-
-const SignUpScreen = ({navigation}: Props) => {
+const SignUpScreen = () => {
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState('');
@@ -105,11 +102,7 @@ const SignUpScreen = ({navigation}: Props) => {
             Already have an account?
           </Text>
 
-          <Text
-            onPress={() => navigation.navigate('SignIn')}
-            style={styles.cta}>
-            Sign In
-          </Text>
+          <Link href="SignIn" text="Sign in" />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -150,10 +143,5 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     marginTop: -15,
-  },
-  cta: {
-    color: '#0f66ff',
-    fontWeight: '600',
-    fontSize: 16,
   },
 });

@@ -5,7 +5,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import React, {Dispatch, ReactNode, SetStateAction, useState} from 'react';
+import {Dispatch, ReactNode, SetStateAction, useState} from 'react';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 
 type Props = {
@@ -35,24 +35,14 @@ const FormInput = ({
       {labelText && <Text style={styles.labelText}>{labelText}</Text>}
 
       <View
-        style={{
-          alignItems: 'center',
-          flexDirection: 'row',
-          borderWidth: 1,
-          borderColor: inputFocus ? '#0f66ff' : '#e5e7ea',
-          borderRadius: 10,
-          padding: 12,
-          gap: 12,
-          marginTop: 10,
-        }}>
+        style={[
+          styles.inputContainer,
+          {borderColor: inputFocus ? '#0f66ff' : '#e5e7ea'},
+        ]}>
         {icon && icon}
 
         <TextInput
-          style={{
-            fontSize: 16,
-            fontWeight: '400',
-            flex: 1,
-          }}
+          style={styles.input}
           onFocus={() => setInputFocus(true)}
           onBlur={() => setInputFocus(false)}
           keyboardType={keyboardType ?? 'default'}
@@ -83,5 +73,19 @@ const styles = StyleSheet.create({
     color: '#18191b',
     fontWeight: '500',
     fontSize: 16,
+  },
+  inputContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 12,
+    gap: 12,
+    marginTop: 10,
+  },
+  input: {
+    fontSize: 16,
+    fontWeight: '400',
+    flex: 1,
   },
 });
