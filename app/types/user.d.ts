@@ -5,3 +5,8 @@ export type User = {
   email: string;
   avatar: string;
 };
+
+export type UserState = {
+  token: string | null;
+  activeUser: Partial<User> | null;
+};

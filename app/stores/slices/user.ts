@@ -1,10 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {User} from '../../types/user';
-
-export type UserState = {
-  token: string | null;
-  activeUser: Partial<User> | null;
-};
+import {UserState} from '../../types/user';
 
 const initialState: UserState = {
   token: null,
