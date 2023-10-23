@@ -133,21 +133,12 @@ const SignInScreen = () => {
               onChangeText={text => setPassword(text)}
             />
 
-            {hidePassword ? (
-              <Ionicon
-                onPress={() => setHidePassword(false)}
-                name="eye-off-outline"
-                size={24}
-                color={'#3f4145'}
-              />
-            ) : (
-              <Ionicon
-                onPress={() => setHidePassword(true)}
-                name="eye-outline"
-                size={24}
-                color={'#3f4145'}
-              />
-            )}
+            <Ionicon
+              onPress={() => setHidePassword(!hidePassword)}
+              name="eye-off-outline"
+              size={24}
+              color={'#3f4145'}
+            />
           </View>
         </View>
 
