@@ -7,7 +7,6 @@ import {
   View,
   StatusBar,
   ScrollView,
-  TouchableOpacity,
   ImageBackground,
   Alert,
 } from 'react-native';
@@ -17,6 +16,7 @@ import {signUp} from '../api/auth';
 import {updateActiveUser, updateToken} from '../stores/slices/user';
 import {useDispatch} from 'react-redux';
 import FormInput from '../../components/FormInput';
+import Button from '../../components/Button';
 
 type Props = NativeStackScreenProps<StackProps, 'SignUp'>;
 
@@ -92,9 +92,7 @@ const SignUpScreen = ({navigation}: Props) => {
           />
         </View>
 
-        <TouchableOpacity onPress={handleSignUp} style={styles.button}>
-          <Text style={styles.buttonText}>Sign Up</Text>
-        </TouchableOpacity>
+        <Button onPress={handleSignUp} buttonText="Sign Up" />
 
         <View
           style={{
@@ -152,34 +150,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     marginTop: -15,
-  },
-  labelText: {
-    color: '#18191b',
-    fontWeight: '500',
-    fontSize: 16,
-  },
-  formInput: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    borderWidth: 1.5,
-    borderColor: '#e5e7ea',
-    borderRadius: 10,
-    padding: 12,
-    gap: 12,
-    fontSize: 24,
-    marginTop: 10,
-  },
-  button: {
-    backgroundColor: '#050b11',
-    padding: 14,
-    borderRadius: 10,
-    marginTop: 25,
-  },
-  buttonText: {
-    color: '#ffffff',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 16,
   },
   cta: {
     color: '#0f66ff',

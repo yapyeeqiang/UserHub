@@ -6,7 +6,6 @@ import {
   View,
   StatusBar,
   ScrollView,
-  TouchableOpacity,
   ImageBackground,
   Alert,
 } from 'react-native';
@@ -17,6 +16,7 @@ import {StackProps} from '../../App';
 import {useDispatch} from 'react-redux';
 import {updateActiveUser, updateToken} from '../stores/slices/user';
 import FormInput from '../../components/FormInput';
+import Button from '../../components/Button';
 
 const SignInScreen = () => {
   const dispatch = useDispatch();
@@ -88,9 +88,7 @@ const SignInScreen = () => {
           />
         </View>
 
-        <TouchableOpacity onPress={handleSignIn} style={styles.button}>
-          <Text style={styles.buttonText}>Sign In</Text>
-        </TouchableOpacity>
+        <Button onPress={handleSignIn} buttonText="Sign In" />
 
         <View
           style={{
@@ -148,34 +146,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     marginTop: -15,
-  },
-  labelText: {
-    color: '#18191b',
-    fontWeight: '500',
-    fontSize: 16,
-  },
-  formInput: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    borderWidth: 1.5,
-    borderColor: '#e5e7ea',
-    borderRadius: 10,
-    padding: 12,
-    gap: 12,
-    fontSize: 24,
-    marginTop: 10,
-  },
-  button: {
-    backgroundColor: '#050b11',
-    padding: 14,
-    borderRadius: 10,
-    marginTop: 25,
-  },
-  buttonText: {
-    color: '#ffffff',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 16,
   },
   cta: {
     color: '#0f66ff',
