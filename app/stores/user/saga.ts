@@ -1,6 +1,12 @@
 import {PayloadAction} from '@reduxjs/toolkit';
 import {call, put, takeLatest} from 'redux-saga/effects';
-import {setError, setLoading, setRefreshing, setUsers} from './slice';
+import {
+  setError,
+  setLoading,
+  setRefreshing,
+  setTotalPages,
+  setUsers,
+} from './slice';
 import {getUsers} from '../../api/user';
 
 function* fetchUsersSaga(
@@ -16,7 +22,7 @@ function* fetchUsersSaga(
       return;
     }
 
-    console.log({newUsers: response.users});
+    yield put(setTotalPages(response.totalPages));
     yield put(setUsers(response.users));
 
     yield put(setError(null));
