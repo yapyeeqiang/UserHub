@@ -11,51 +11,31 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
-import {useCallback, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import {User} from '../types/user';
-import {getUsers} from '../api/user';
 import {useSelector, useDispatch} from 'react-redux';
 import {RootState} from '../stores';
-import {updateToken} from '../stores/slices/user';
+import {
+  fetchUsers,
+  setLoading,
+  setRefreshing,
+  setToken,
+  setUsers,
+} from '../stores/user/slice';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
-  const activeUser = useSelector((state: RootState) => state.user.activeUser);
+  const {activeUser, loading, users, totalPages, refreshing} = useSelector(
+    (state: RootState) => state.user,
+  );
 
-  const [users, setUsers] = useState<User[]>([]);
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [refreshing, setRefreshing] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const fetchUsers = useCallback(async (currentPage: number) => {
-    setLoading(true);
-
-    try {
-      const response = await getUsers(currentPage);
-
-      if (!response) {
-        return;
-      }
-
-      setTotalPages(response.totalPages);
-      const userData = response.users as User[];
-
-      setUsers(prevUsers => [...prevUsers, ...userData]);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  }, []);
 
   const handleRefresh = () => {
-    setUsers([]);
-    setRefreshing(true);
+    dispatch(setUsers([]));
+    dispatch(setRefreshing(true));
     setPage(1);
-    fetchUsers(1);
+    dispatch(fetchUsers(1));
   };
 
   const handleLoadMore = () => {
@@ -65,17 +45,17 @@ const HomeScreen = () => {
       return;
     }
 
-    setLoading(true);
+    dispatch(setLoading(true));
     setPage(nextPage);
 
     setTimeout(() => {
-      fetchUsers(nextPage);
+      dispatch(fetchUsers(nextPage));
     }, 1000);
   };
 
   useEffect(() => {
-    setUsers([]);
-    fetchUsers(page);
+    dispatch(setUsers([]));
+    dispatch(fetchUsers(page));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -84,7 +64,7 @@ const HomeScreen = () => {
       <StatusBar barStyle="light-content" />
 
       <TouchableOpacity
-        onPress={() => dispatch(updateToken(''))}
+        onPress={() => dispatch(setToken(''))}
         style={styles.profile}>
         <Ionicon name="log-out-outline" size={28} color={'#ffffff'} />
       </TouchableOpacity>

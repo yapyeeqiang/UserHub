@@ -9,4 +9,9 @@ export type User = {
 export type UserState = {
   token: string | null;
   activeUser: Partial<User> | null;
+  totalPages: number;
+  users: User[];
+  loading: boolean;
+  refreshing: boolean;
+  error: string | null;
 };

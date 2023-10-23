@@ -12,7 +12,7 @@ import {
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {signIn} from '../api/auth';
 import {useDispatch} from 'react-redux';
-import {updateActiveUser, updateToken} from '../stores/slices/user';
+import {setActiveUser, setToken} from '../stores/user/slice';
 import FormInput from '../../components/FormInput';
 import Button from '../../components/Button';
 import Link from '../../components/Link';
@@ -34,12 +34,12 @@ const SignInScreen = () => {
       return;
     }
 
-    dispatch(updateToken(token));
+    dispatch(setToken(token));
 
     const [firstName, lastName] = email.split('@')[0].split('.');
 
     dispatch(
-      updateActiveUser({
+      setActiveUser({
         email,
         first_name: firstName[0].toUpperCase() + firstName.slice(1),
         last_name: lastName,

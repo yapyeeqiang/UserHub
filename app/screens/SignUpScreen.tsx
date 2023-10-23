@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {signUp} from '../api/auth';
-import {updateActiveUser, updateToken} from '../stores/slices/user';
+import {setActiveUser, setToken} from '../stores/user/slice';
 import {useDispatch} from 'react-redux';
 import FormInput from '../../components/FormInput';
 import Button from '../../components/Button';
@@ -27,12 +27,12 @@ const SignUpScreen = () => {
     const response = await signUp(email, password);
 
     if (response && response.token) {
-      dispatch(updateToken(response.token));
+      dispatch(setToken(response.token));
 
       const [firstName, lastName] = email.split('@')[0].split('.');
 
       dispatch(
-        updateActiveUser({
+        setActiveUser({
           email,
           first_name: firstName[0].toUpperCase() + firstName.slice(1),
           last_name: lastName,
